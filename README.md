@@ -1,16 +1,32 @@
-# flutter_app
+# User Friendly News
 
-A new Flutter project.
+Personalized live news app built with Flutter.
 
-## Getting Started
+## What It Does
 
-This project is a starting point for a Flutter application.
+- Lets users create and manage their own news tags.
+- Fetches real-time stories from Google News RSS using those tags.
+- Prioritizes well-known trusted publishers in the feed.
+- Shows a refreshable home feed of latest matched stories.
+- Sends local push notifications for new matched stories using background sync.
 
-A few resources to get you started if this is your first Flutter project:
+## Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter
+- `http` + `xml` for live RSS parsing
+- `shared_preferences` for local tag storage
+- `flutter_local_notifications` for notifications
+- `workmanager` for periodic background refresh checks
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Run Locally
+
+```bash
+flutter pub get
+flutter run
+```
+
+## Notes
+
+- Android notification permission is required on Android 13+.
+- Background checks are periodic and controlled by OS battery/background policies.
+- This app is source-driven by your selected tags, so adding better tags improves results.
