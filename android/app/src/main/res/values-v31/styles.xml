@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Android 12+ (API 31) enforces its Splash Screen API.
+      We override every attribute so the splash shows ONLY the creamy
+      background — no icon, no white circle.
+
+      windowSplashScreenBackground        → creamy brand color
+      windowSplashScreenAnimatedIcon      → same-color fill (invisible)
+      windowSplashScreenIconBackgroundColor → same-color (hides white circle)
+      windowSplashScreenBrandingImage     → not set (remove branding logo)
+    -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowSplashScreenBackground">@color/splashBg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_transparent</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/splashBg</item>
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+    <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowBackground">@color/splashBg</item>
+    </style>
+</resources>
