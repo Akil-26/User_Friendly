@@ -35,10 +35,10 @@ class AppTextField extends StatelessWidget {
       keyboardType: keyboardType,
       textInputAction: textInputAction,
       onFieldSubmitted: onSubmitted,
-      style: GoogleFonts.inter(fontSize: 15.sp, color: kDarkText),
+      style: GoogleFonts.playfairDisplay(fontSize: 15.sp, color: kDarkText),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: GoogleFonts.inter(color: kGrayText, fontSize: 14.sp),
+        labelStyle: GoogleFonts.playfairDisplay(color: kGrayText, fontSize: 14.sp),
         prefixIcon: Icon(prefixIcon, color: kGrayText, size: 20.sp),
         suffixIcon: suffix,
         filled: true,

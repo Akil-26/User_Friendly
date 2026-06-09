@@ -94,7 +94,7 @@ class _MainScreenState extends State<MainScreen> {
                             backgroundColor: kPrimaryColor,
                             child: Text(
                               name,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.playfairDisplay(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.sp,

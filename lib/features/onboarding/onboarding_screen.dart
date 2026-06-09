@@ -70,7 +70,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                   child: Text(
                     'Skip',
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       color: kGrayText,
                       fontSize: 14.sp,
                     ),
@@ -118,7 +118,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         Text(
                           page.subtitle,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.playfairDisplay(
                             fontSize: 16.sp,
                             color: kGrayText,
                             height: 1.6,
@@ -166,7 +166,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                       child: Text(
                         _currentPage == _pages.length - 1 ? 'Get Started' : 'Next',
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),

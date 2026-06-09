@@ -79,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
             children: [
               Text(
                 'Chat with AI',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
                   color: kDarkText,
@@ -87,7 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               Text(
                 widget.article.source,
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   fontSize: 12.sp,
                   color: kGrayText,
                 ),
@@ -110,17 +110,17 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       title: Text(
                         'Clear chat',
-                        style: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                        style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.bold),
                       ),
                       content: Text(
                         'Delete all messages for this article?',
-                        style: GoogleFonts.inter(color: kGrayText),
+                        style: GoogleFonts.playfairDisplay(color: kGrayText),
                       ),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(ctx),
                           child: Text('Cancel',
-                              style: GoogleFonts.inter(color: kGrayText)),
+                              style: GoogleFonts.playfairDisplay(color: kGrayText)),
                         ),
                         TextButton(
                           onPressed: () {
@@ -130,7 +130,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 );
                           },
                           child: Text('Clear',
-                              style: GoogleFonts.inter(color: Colors.red)),
+                              style: GoogleFonts.playfairDisplay(color: Colors.red)),
                         ),
                       ],
                     ),
@@ -163,7 +163,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     SizedBox(height: AppSizes.spaceMd),
                     Text(
                       'Reading article...',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
                         color: kDarkText,
@@ -172,7 +172,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     SizedBox(height: AppSizes.spaceSm),
                     Text(
                       'Preparing AI context',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 13.sp,
                         color: kGrayText,
                       ),
@@ -198,7 +198,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         Expanded(
                           child: Text(
                             widget.article.title,
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.playfairDisplay(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w500,
                               color: kDarkText,
@@ -286,7 +286,7 @@ class _EmptyChat extends StatelessWidget {
             SizedBox(height: AppSizes.spaceMd),
             Text(
               'Ask anything about this article',
-              style: GoogleFonts.inter(
+              style: GoogleFonts.playfairDisplay(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
                 color: kDarkText,
@@ -296,7 +296,7 @@ class _EmptyChat extends StatelessWidget {
             Text(
               'The AI will answer using only\nthe article content',
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.playfairDisplay(
                 fontSize: 13.sp,
                 color: kGrayText,
               ),
@@ -332,7 +332,7 @@ class _EmptyChat extends StatelessWidget {
                           Expanded(
                             child: Text(
                               q,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.playfairDisplay(
                                 fontSize: 13.sp,
                                 color: kPrimaryColor,
                               ),
@@ -401,7 +401,7 @@ class _MessageBubble extends StatelessWidget {
               ),
               child: Text(
                 message.content,
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   color: isUser ? Colors.white : kDarkText,
                   fontSize: 14.sp,
                   height: 1.5,
@@ -531,12 +531,12 @@ class _ChatInputBar extends StatelessWidget {
               enabled: !isAnswering,
               textInputAction: TextInputAction.send,
               onSubmitted: (_) => onSend(),
-              style: GoogleFonts.inter(fontSize: 14.sp),
+              style: GoogleFonts.playfairDisplay(fontSize: 14.sp),
               decoration: InputDecoration(
                 hintText: isAnswering
                     ? 'AI is thinking...'
                     : 'Ask about this article...',
-                hintStyle: GoogleFonts.inter(
+                hintStyle: GoogleFonts.playfairDisplay(
                   color: kGrayText,
                   fontSize: 14.sp,
                 ),

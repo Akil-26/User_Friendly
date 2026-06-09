@@ -5,6 +5,8 @@ import '../bloc/news_bloc.dart';
 import '../bloc/news_event.dart';
 import '../bloc/news_state.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/utils.dart';
+import '../../../core/widgets/status_view.dart';
 import 'widgets/article_card.dart';
 
 class AllNewsScreen extends StatefulWidget {
@@ -16,24 +18,39 @@ class AllNewsScreen extends StatefulWidget {
 
 class _AllNewsScreenState extends State<AllNewsScreen> {
   final List<String> _topics = [
-    'All', 'tech', 'sports', 'finance', 'science',
-    'health', 'politics', 'world', 'business',
-    'entertainment', 'gaming', 'india',
+    'All',
+    'tech',
+    'sports',
+    'finance',
+    'science',
+    'health',
+    'politics',
+    'world',
+    'business',
+    'entertainment',
+    'gaming',
+    'india',
   ];
   String _selected = 'All';
 
   @override
   Widget build(BuildContext context) {
+    AppSizes.init(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Page title
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+          padding: EdgeInsets.fromLTRB(
+            AppSizes.spaceLg,
+            AppSizes.spaceSm,
+            AppSizes.spaceLg,
+            10.h,
+          ),
           child: Text(
             'Explore',
             style: GoogleFonts.playfairDisplay(
-              fontSize: 28,
+              fontSize: 28.sp,
               fontWeight: FontWeight.bold,
               color: kDarkText,
             ),
@@ -42,10 +59,10 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
 
         // Category tabs
         SizedBox(
-          height: 40,
+          height: 40.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: AppSizes.spaceMd),
             itemCount: _topics.length,
             itemBuilder: (context, index) {
               final topic = _topics[index];
@@ -63,28 +80,30 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
                 },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  margin: const EdgeInsets.only(right: 8),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                  margin: EdgeInsets.only(right: 8.w),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
                   ),
                   decoration: BoxDecoration(
                     color: isSelected ? kPrimaryColor : Colors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(
+                      AppSizes.radiusCircular,
+                    ),
                     border: Border.all(
                       color: isSelected
                           ? kPrimaryColor
-                          : Colors.grey.withAlpha(51), // 20% opacity
+                          : Colors.grey.withAlpha(51),
                     ),
                   ),
                   child: Text(
                     topic,
-                    style: TextStyle(
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 13.sp,
                       color: isSelected ? Colors.white : kGrayText,
                       fontWeight: isSelected
                           ? FontWeight.bold
                           : FontWeight.normal,
-                      fontSize: 13,
                     ),
                   ),
                 ),
@@ -93,30 +112,40 @@ class _AllNewsScreenState extends State<AllNewsScreen> {
           ),
         ),
 
-        const SizedBox(height: 12),
+        SizedBox(height: 10.h),
 
-        // Articles
+        // Articles — notification style, no padding between cards
         Expanded(
           child: BlocBuilder<NewsBloc, NewsState>(
             builder: (context, state) {
               if (state is NewsLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(color: kPrimaryColor),
-                );
+                return const StatusView(type: StatusType.loading);
               }
               if (state is NewsError) {
-                return Center(child: Text(state.message));
+                return StatusView(
+                  type: StatusType.error,
+                  message: state.message,
+                  actionLabel: 'Try again',
+                  onAction: () =>
+                      context.read<NewsBloc>().add(NewsFeedRequested()),
+                );
               }
               if (state is NewsLoaded) {
+                if (state.articles.isEmpty) {
+                  return const StatusView(
+                    type: StatusType.empty,
+                    message: 'No articles found',
+                  );
+                }
                 return RefreshIndicator(
                   color: kPrimaryColor,
                   onRefresh: () async =>
                       context.read<NewsBloc>().add(NewsRefreshRequested()),
                   child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(vertical: 8.h),
                     itemCount: state.articles.length,
                     itemBuilder: (context, index) =>
-                        ArticleCard(article: state.articles[index]),
+                        FeedNotificationCard(article: state.articles[index]),
                   ),
                 );
               }

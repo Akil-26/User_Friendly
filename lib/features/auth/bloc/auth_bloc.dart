@@ -7,7 +7,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
 
   AuthBloc(this._authRepository) : super(AuthInitial()) {
-    // ── Check if already logged in ────────────────────────
+
     on<AuthCheckRequested>((event, emit) async {
       emit(AuthLoading());
       try {
@@ -23,7 +23,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    // ── Login ─────────────────────────────────────────────
     on<AuthLoginRequested>((event, emit) async {
       emit(AuthLoading());
       try {
@@ -35,7 +34,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    // ── Register ──────────────────────────────────────────
     on<AuthRegisterRequested>((event, emit) async {
       emit(AuthLoading());
       try {
@@ -52,13 +50,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     });
 
-    // ── Logout ────────────────────────────────────────────
     on<AuthLogoutRequested>((event, emit) async {
       await _authRepository.logout();
       emit(AuthUnauthenticated());
     });
 
-    // ── Update interests ──────────────────────────────────
     on<AuthInterestsUpdated>((event, emit) async {
       if (state is AuthAuthenticated) {
         try {
@@ -69,7 +65,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
     });
-    // ── Change password ────────────────────────────────────────
+
     on<AuthPasswordChangeRequested>((event, emit) async {
       emit(AuthLoading());
       try {
@@ -78,7 +74,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           newPassword: event.newPassword,
         );
         emit(AuthPasswordChanged());
-        // reload user
         final user = await _authRepository.getMe();
         emit(AuthAuthenticated(user));
       } catch (e) {

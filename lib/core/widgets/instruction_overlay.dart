@@ -160,7 +160,7 @@ class _InstructionOverlayState extends State<InstructionOverlay>
                               // Title
                               Text(
                                 step.title,
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.playfairDisplay(
                                   color: Colors.white,
                                   fontSize: 15.sp,
                                   fontWeight: FontWeight.bold,
@@ -171,7 +171,7 @@ class _InstructionOverlayState extends State<InstructionOverlay>
                               // Subtitle
                               Text(
                                 step.subtitle,
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.playfairDisplay(
                                   color: Colors.white60,
                                   fontSize: 13.sp,
                                   height: 1.5,
@@ -223,7 +223,7 @@ class _InstructionOverlayState extends State<InstructionOverlay>
                                         children: [
                                           Text(
                                             isLast ? 'Done' : 'Next',
-                                            style: GoogleFonts.inter(
+                                            style: GoogleFonts.playfairDisplay(
                                               color: Colors.white,
                                               fontSize: 13.sp,
                                               fontWeight: FontWeight.bold,
@@ -268,7 +268,7 @@ class _InstructionOverlayState extends State<InstructionOverlay>
                       onPressed: _dismiss,
                       child: Text(
                         'Skip',
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                           color: Colors.white60,
                           fontSize: 13.sp,
                         ),

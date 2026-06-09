@@ -146,29 +146,40 @@ class _SplashScreenState extends State<SplashScreen>
     _navigate();
   }
 
-  void _navigate() {
-    if (!mounted) return;
-    final authState = context.read<AuthBloc>().state;
+ Future<void> _navigate() async {
+  if (!mounted) return;
 
-    Widget destination;
-    if (authState is AuthAuthenticated) {
-      destination = const MainScreen();
-    } else {
-      destination = const OnboardingScreen();
-    }
-
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (_, __, ___) => destination,
-        transitionDuration: const Duration(milliseconds: 600),
-        transitionsBuilder: (_, anim, __, child) => FadeTransition(
-          opacity: anim,
-          child: child,
-        ),
-      ),
+  // AuthBloc still loading ah irundha, authenticated state varaikum wait pannunga
+  AuthState authState = context.read<AuthBloc>().state;
+  
+  if (authState is AuthLoading || authState is AuthInitial) {
+    // State change aagum varaikum listen pannunga
+    authState = await context.read<AuthBloc>().stream.firstWhere(
+      (s) => s is AuthAuthenticated || s is AuthUnauthenticated || s is AuthError,
     );
   }
+
+  if (!mounted) return;
+
+  Widget destination;
+  if (authState is AuthAuthenticated) {
+    destination = const MainScreen();
+  } else {
+    destination = const OnboardingScreen();
+  }
+
+  Navigator.pushReplacement(
+    context,
+    PageRouteBuilder(
+      pageBuilder: (_, __, ___) => destination,
+      transitionDuration: const Duration(milliseconds: 600),
+      transitionsBuilder: (_, anim, __, child) => FadeTransition(
+        opacity: anim,
+        child: child,
+      ),
+    ),
+  );
+}
 
   @override
   void dispose() {
@@ -276,7 +287,7 @@ class _SplashScreenState extends State<SplashScreen>
                             opacity: _taglineFade,
                             child: Text(
                               'NEWS THAT KNOWS YOU',
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.playfairDisplay(
                                 fontSize: 11.sp,
                                 color: kGrayText,
                                 letterSpacing: 3,
@@ -332,7 +343,7 @@ class _SplashScreenState extends State<SplashScreen>
               child: Text(
                 'by Akileshwaran',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   fontSize: 11.sp,
                   color: kGrayText.withAlpha(128),
                   letterSpacing: 1,

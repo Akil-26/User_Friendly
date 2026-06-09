@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/features/main/main_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
@@ -15,15 +16,24 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _nameController     = TextEditingController();
-  final _emailController    = TextEditingController();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _formKey            = GlobalKey<FormState>();
-  bool _obscurePassword     = true;
+  final _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true;
 
   final List<String> _availableInterests = [
-    'tech', 'sports', 'finance', 'science', 'health',
-    'politics', 'world', 'business', 'entertainment', 'gaming', 'india',
+    'tech',
+    'sports',
+    'finance',
+    'science',
+    'health',
+    'politics',
+    'world',
+    'business',
+    'entertainment',
+    'gaming',
+    'india',
   ];
   final List<String> _selectedInterests = [];
 
@@ -37,12 +47,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void _register() {
     if (_formKey.currentState!.validate()) {
-      context.read<AuthBloc>().add(AuthRegisterRequested(
-        name: _nameController.text.trim(),
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-        interests: _selectedInterests,
-      ));
+      context.read<AuthBloc>().add(
+        AuthRegisterRequested(
+          name: _nameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+          interests: _selectedInterests,
+        ),
+      );
     }
   }
 
@@ -53,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }) {
     return InputDecoration(
       labelText: label,
-      labelStyle: GoogleFonts.inter(color: kGrayText, fontSize: 14.sp),
+      labelStyle: GoogleFonts.playfairDisplay(color: kGrayText, fontSize: 14.sp),
       prefixIcon: Icon(icon, color: kGrayText, size: 20.sp),
       suffixIcon: suffix,
       filled: true,
@@ -92,6 +104,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
+          if (state is AuthAuthenticated) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => const MainScreen(),
+                transitionDuration: const Duration(milliseconds: 500),
+                transitionsBuilder: (_, anim, __, child) =>
+                    FadeTransition(opacity: anim, child: child),
+              ),
+              (route) => false,
+            );
+          }
           if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -121,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(height: AppSizes.spaceSm),
                     Text(
                       'Join User Friendly today',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 15.sp,
                         color: kGrayText,
                       ),
@@ -131,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Name
                     TextFormField(
                       controller: _nameController,
-                      style: GoogleFonts.inter(fontSize: 15.sp),
+                      style: GoogleFonts.playfairDisplay(fontSize: 15.sp),
                       decoration: _inputDecoration(
                         label: 'Full name',
                         icon: Icons.person_outlined,
@@ -145,7 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      style: GoogleFonts.inter(fontSize: 15.sp),
+                      style: GoogleFonts.playfairDisplay(fontSize: 15.sp),
                       decoration: _inputDecoration(
                         label: 'Email',
                         icon: Icons.email_outlined,
@@ -162,7 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
-                      style: GoogleFonts.inter(fontSize: 15.sp),
+                      style: GoogleFonts.playfairDisplay(fontSize: 15.sp),
                       decoration: _inputDecoration(
                         label: 'Password',
                         icon: Icons.lock_outlined,
@@ -174,7 +198,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             color: kGrayText,
                           ),
                           onPressed: () => setState(
-                              () => _obscurePassword = !_obscurePassword),
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
                         ),
                       ),
                       validator: (v) {
@@ -188,7 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Interests
                     Text(
                       'Pick your interests',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: kDarkText,
@@ -197,7 +222,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(height: AppSizes.spaceSm),
                     Text(
                       'Select topics to personalize your feed',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 13.sp,
                         color: kGrayText,
                       ),
@@ -207,7 +232,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       spacing: 8.w,
                       runSpacing: 8.h,
                       children: _availableInterests.map((interest) {
-                        final isSelected = _selectedInterests.contains(interest);
+                        final isSelected = _selectedInterests.contains(
+                          interest,
+                        );
                         return GestureDetector(
                           onTap: () => setState(() {
                             if (isSelected) {
@@ -224,7 +251,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             decoration: BoxDecoration(
                               color: isSelected ? kPrimaryColor : Colors.white,
-                              borderRadius: BorderRadius.circular(AppSizes.radiusCircular),
+                              borderRadius: BorderRadius.circular(
+                                AppSizes.radiusCircular,
+                              ),
                               border: Border.all(
                                 color: isSelected
                                     ? kPrimaryColor
@@ -235,14 +264,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 if (isSelected) ...[
-                                  Icon(Icons.check, size: 14.sp, color: Colors.white),
+                                  Icon(
+                                    Icons.check,
+                                    size: 14.sp,
+                                    color: Colors.white,
+                                  ),
                                   SizedBox(width: 4.w),
                                 ],
                                 Text(
                                   interest,
-                                  style: GoogleFonts.inter(
+                                  style: GoogleFonts.playfairDisplay(
                                     fontSize: 13.sp,
-                                    color: isSelected ? Colors.white : kGrayText,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : kGrayText,
                                     fontWeight: isSelected
                                         ? FontWeight.bold
                                         : FontWeight.normal,
@@ -266,8 +301,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           backgroundColor: kPrimaryColor,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(AppSizes.radiusLg),
+                            borderRadius: BorderRadius.circular(
+                              AppSizes.radiusLg,
+                            ),
                           ),
                           elevation: 0,
                         ),
@@ -282,7 +318,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               )
                             : Text(
                                 'Create account',
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.playfairDisplay(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                 ),

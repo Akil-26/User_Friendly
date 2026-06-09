@@ -41,7 +41,7 @@ class AppChip extends StatelessWidget {
             ],
             Text(
               label,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.playfairDisplay(
                 fontSize: 13.sp,
                 color: isSelected ? Colors.white : kGrayText,
                 fontWeight:

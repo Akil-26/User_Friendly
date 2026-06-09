@@ -86,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _showSnack(String msg, {bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(msg, style: GoogleFonts.inter(fontSize: 13.sp)),
+        content: Text(msg, style: GoogleFonts.playfairDisplay(fontSize: 13.sp)),
         backgroundColor: isError ? Colors.red : Colors.green,
       ),
     );
@@ -253,7 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           title: Text(
             'Delete account',
-            style: GoogleFonts.inter(
+            style: GoogleFonts.playfairDisplay(
               fontWeight: FontWeight.bold,
               color: Colors.red,
             ),
@@ -263,7 +263,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Text(
                 'This action is permanent and cannot be undone. All your data will be deleted.',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   fontSize: 13.sp,
                   color: kGrayText,
                 ),
@@ -284,7 +284,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: () => Navigator.pop(ctx),
               child: Text(
                 'Cancel',
-                style: GoogleFonts.inter(color: kGrayText),
+                style: GoogleFonts.playfairDisplay(color: kGrayText),
               ),
             ),
             BlocConsumer<AuthBloc, AuthState>(
@@ -314,7 +314,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       )
                     : Text(
                         'Delete',
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
                         ),
@@ -353,7 +353,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               onPressed: _saveInterests,
               child: Text(
                 'Save',
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   color: kPrimaryColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 15.sp,
@@ -425,7 +425,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: [
                             Text(
                               user.name,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.playfairDisplay(
                                 fontSize: 17.sp,
                                 fontWeight: FontWeight.bold,
                                 color: kDarkText,
@@ -434,7 +434,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: 2.h),
                             Text(
                               user.email,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.playfairDisplay(
                                 fontSize: 13.sp,
                                 color: kGrayText,
                               ),
@@ -452,7 +452,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Text(
                       'Your interests',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: kDarkText,
@@ -471,7 +471,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       child: Text(
                         '${_selectedInterests.length}',
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                           color: Colors.white,
                           fontSize: 11.sp,
                           fontWeight: FontWeight.bold,
@@ -483,7 +483,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(height: 4.h),
                 Text(
                   'Tap to add or remove. Add your own below.',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.playfairDisplay(
                     fontSize: 13.sp,
                     color: kGrayText,
                   ),
@@ -510,12 +510,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Expanded(
                       child: TextField(
                         controller: _customInterestController,
-                        style: GoogleFonts.inter(fontSize: 14.sp),
+                        style: GoogleFonts.playfairDisplay(fontSize: 14.sp),
                         textInputAction: TextInputAction.done,
                         onSubmitted: (_) => _addCustomInterest(),
                         decoration: InputDecoration(
                           hintText: 'Add custom interest...',
-                          hintStyle: GoogleFonts.inter(
+                          hintStyle: GoogleFonts.playfairDisplay(
                             color: kGrayText,
                             fontSize: 13.sp,
                           ),
@@ -581,7 +581,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 // ── Account settings ─────────────────────────
                 Text(
                   'Account',
-                  style: GoogleFonts.inter(
+                  style: GoogleFonts.playfairDisplay(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                     color: kDarkText,
@@ -610,20 +610,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       title: Text(
                         'Logout',
-                        style: GoogleFonts.inter(
+                        style: GoogleFonts.playfairDisplay(
                             fontWeight: FontWeight.bold),
                       ),
                       content: Text(
                         'Are you sure you want to logout?',
                         style:
-                            GoogleFonts.inter(color: kGrayText),
+                            GoogleFonts.playfairDisplay(color: kGrayText),
                       ),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(ctx),
                           child: Text('Cancel',
                               style:
-                                  GoogleFonts.inter(color: kGrayText)),
+                                  GoogleFonts.playfairDisplay(color: kGrayText)),
                         ),
                         TextButton(
                           onPressed: () {
@@ -634,7 +634,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                           child: Text(
                             'Logout',
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.playfairDisplay(
                               color: Colors.red,
                               fontWeight: FontWeight.bold,
                             ),
@@ -692,7 +692,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(width: AppSizes.spaceMd),
             Text(
               label,
-              style: GoogleFonts.inter(
+              style: GoogleFonts.playfairDisplay(
                 fontSize: 15.sp,
                 color: color,
                 fontWeight: FontWeight.w500,

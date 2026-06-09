@@ -71,7 +71,7 @@ class AppButton extends StatelessWidget {
                   ],
                   Text(
                     label,
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.bold,
                       color: fgColor,

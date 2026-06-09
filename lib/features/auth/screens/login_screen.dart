@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/theme/app_theme.dart';
+import '../../main/main_screen.dart';
 import '../../../core/utils/utils.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
@@ -16,10 +17,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController    = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _formKey            = GlobalKey<FormState>();
-  bool _obscurePassword     = true;
+  final _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true;
 
   @override
   void dispose() {
@@ -30,10 +31,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      context.read<AuthBloc>().add(AuthLoginRequested(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      ));
+      context.read<AuthBloc>().add(
+        AuthLoginRequested(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        ),
+      );
     }
   }
 
@@ -44,6 +47,18 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: kBgColor,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
+          if (state is AuthAuthenticated) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (_, __, ___) => const MainScreen(),
+                transitionDuration: const Duration(milliseconds: 500),
+                transitionsBuilder: (_, anim, __, child) =>
+                    FadeTransition(opacity: anim, child: child),
+              ),
+              (route) => false,
+            );
+          }
           if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -91,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: AppSizes.spaceSm),
                     Text(
                       'Sign in to your account',
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.playfairDisplay(
                         fontSize: 15.sp,
                         color: kGrayText,
                       ),
@@ -102,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
-                      style: GoogleFonts.inter(fontSize: 15.sp),
+                      style: GoogleFonts.playfairDisplay(fontSize: 15.sp),
                       decoration: _inputDecoration(
                         label: 'Email',
                         icon: Icons.email_outlined,
@@ -119,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
-                      style: GoogleFonts.inter(fontSize: 15.sp),
+                      style: GoogleFonts.playfairDisplay(fontSize: 15.sp),
                       decoration: _inputDecoration(
                         label: 'Password',
                         icon: Icons.lock_outlined,
@@ -131,11 +146,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: kGrayText,
                           ),
                           onPressed: () => setState(
-                              () => _obscurePassword = !_obscurePassword),
+                            () => _obscurePassword = !_obscurePassword,
+                          ),
                         ),
                       ),
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Enter your password';
+                        if (v == null || v.isEmpty) {
+                          return 'Enter your password';
+                        }
                         if (v.length < 6) return 'At least 6 characters';
                         return null;
                       },
@@ -152,7 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           backgroundColor: kPrimaryColor,
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(AppSizes.radiusLg),
+                            borderRadius: BorderRadius.circular(
+                              AppSizes.radiusLg,
+                            ),
                           ),
                           elevation: 0,
                         ),
@@ -167,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               )
                             : Text(
                                 'Sign in',
-                                style: GoogleFonts.inter(
+                                style: GoogleFonts.playfairDisplay(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -182,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           "Don't have an account? ",
-                          style: GoogleFonts.inter(
+                          style: GoogleFonts.playfairDisplay(
                             color: kGrayText,
                             fontSize: 14.sp,
                           ),
@@ -196,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           child: Text(
                             'Sign up',
-                            style: GoogleFonts.inter(
+                            style: GoogleFonts.playfairDisplay(
                               color: kPrimaryColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 14.sp,
@@ -222,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }) {
     return InputDecoration(
       labelText: label,
-      labelStyle: GoogleFonts.inter(color: kGrayText, fontSize: 14.sp),
+      labelStyle: GoogleFonts.playfairDisplay(color: kGrayText, fontSize: 14.sp),
       prefixIcon: Icon(icon, color: kGrayText, size: 20.sp),
       suffixIcon: suffix,
       filled: true,

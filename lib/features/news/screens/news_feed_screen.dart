@@ -52,7 +52,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                 children: [
                   Text(
                     '${_greeting()}, $name 👋',
-                    style: GoogleFonts.inter(
+                    style: GoogleFonts.playfairDisplay(
                       fontSize: 14.sp,
                       color: kGrayText,
                     ),
@@ -170,7 +170,7 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
         ),
         child: Text(
           label,
-          style: GoogleFonts.inter(
+          style: GoogleFonts.playfairDisplay(
             fontSize: 13.sp,
             color: isSelected ? Colors.white : kGrayText,
             fontWeight:

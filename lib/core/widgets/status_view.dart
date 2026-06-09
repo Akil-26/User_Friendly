@@ -53,7 +53,7 @@ class StatusView extends StatelessWidget {
                       StatusType.loading => '',
                     },
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
+                style: GoogleFonts.playfairDisplay(
                   fontSize: 15.sp,
                   color: kGrayText,
                 ),
