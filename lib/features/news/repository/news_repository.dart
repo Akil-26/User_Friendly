@@ -7,46 +7,63 @@ class NewsRepository {
 
   NewsRepository(this._apiService);
 
+  // Home page — user interests only
   Future<List<ArticleModel>> getFeed({int limit = 10}) async {
     try {
       final response = await _apiService.dio.get(
         '/news/feed',
         queryParameters: {'limit': limit},
       );
-      final articles = response.data['articles'] as List;
+      final articles = response.data['articles'] as List? ?? [];
       return articles.map((a) => ArticleModel.fromJson(a)).toList();
     } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return [];
       throw _handleError(e);
     }
   }
 
-  Future<List<ArticleModel>> getFeedByInterest(
-  String interest, {
-  int limit = 10,
-}) async {
-  try {
-    final response = await _apiService.dio.get(
-      '/news/feed/$interest',
-      queryParameters: {'limit': limit},
-    );
-
-    final data = response.data;
-    final articles = data['articles'] as List? ?? [];
-
-    // If backend fuzzy-matched to a different topic, still show articles
-    // If suggestions returned (no articles), return empty — UI shows fallback
-    return articles.map((a) => ArticleModel.fromJson(a)).toList();
-  } on DioException catch (e) {
-    // 404 = topic not found at all — return empty instead of crashing
-    if (e.response?.statusCode == 404) return [];
-    throw _handleError(e);
+  // Explore/Feed page — all built-in + user custom
+  Future<List<ArticleModel>> getExploreFeed({int limit = 10}) async {
+    try {
+      final response = await _apiService.dio.get(
+        '/news/explore',
+        queryParameters: {'limit': limit},
+      );
+      final articles = response.data['articles'] as List? ?? [];
+      return articles.map((a) => ArticleModel.fromJson(a)).toList();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return [];
+      throw _handleError(e);
+    }
   }
-}
 
-  Future<List<String>> getTopics() async {
+  // Single topic chip tap — both pages
+  Future<List<ArticleModel>> getFeedByInterest(
+    String interest, {
+    int limit = 10,
+  }) async {
+    try {
+      final response = await _apiService.dio.get(
+        '/news/feed/$interest',
+        queryParameters: {'limit': limit},
+      );
+      final articles = response.data['articles'] as List? ?? [];
+      return articles.map((a) => ArticleModel.fromJson(a)).toList();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return [];
+      throw _handleError(e);
+    }
+  }
+
+  // Get topics for explore tabs
+  Future<Map<String, List<String>>> getTopics() async {
     try {
       final response = await _apiService.dio.get('/news/topics');
-      return List<String>.from(response.data['topics']);
+      return {
+        'builtin': List<String>.from(response.data['builtin']),
+        'custom': List<String>.from(response.data['custom']),
+        'all': List<String>.from(response.data['all']),
+      };
     } on DioException catch (e) {
       throw _handleError(e);
     }

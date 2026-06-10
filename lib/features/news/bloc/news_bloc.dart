@@ -8,6 +8,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
 
   NewsBloc(this._newsRepository) : super(NewsInitial()) {
 
+    // Home page — user interests only
     on<NewsFeedRequested>((event, emit) async {
       emit(NewsLoading());
       try {
@@ -18,6 +19,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       }
     });
 
+    // Single topic chip tap — both pages
     on<NewsFeedByInterestRequested>((event, emit) async {
       emit(NewsLoading());
       try {
@@ -34,10 +36,24 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
       }
     });
 
+    // Home page refresh
     on<NewsRefreshRequested>((event, emit) async {
       emit(NewsLoading());
       try {
         final articles = await _newsRepository.getFeed();
+        emit(NewsLoaded(articles: articles));
+      } catch (e) {
+        emit(NewsError(e.toString()));
+      }
+    });
+
+    // Explore/Feed page — all built-in + user custom topics
+    on<NewsExploreRequested>((event, emit) async {
+      emit(NewsLoading());
+      try {
+        final articles = await _newsRepository.getExploreFeed(
+          limit: event.limit,
+        );
         emit(NewsLoaded(articles: articles));
       } catch (e) {
         emit(NewsError(e.toString()));

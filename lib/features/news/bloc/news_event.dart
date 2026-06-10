@@ -27,3 +27,11 @@ class NewsFeedByInterestRequested extends NewsEvent {
 }
 
 class NewsRefreshRequested extends NewsEvent {}
+
+class NewsExploreRequested extends NewsEvent {
+  final int limit;
+  NewsExploreRequested({this.limit = 10});
+
+  @override
+  List<Object?> get props => [limit];
+}
