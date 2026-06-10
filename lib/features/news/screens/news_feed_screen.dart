@@ -105,9 +105,8 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                   type: StatusType.error,
                   message: state.message,
                   actionLabel: 'Try again',
-                  onAction: () => context
-                      .read<NewsBloc>()
-                      .add(NewsFeedRequested()),
+                  onAction: () =>
+                      context.read<NewsBloc>().add(NewsFeedRequested()),
                 );
               }
               if (state is NewsLoaded) {
@@ -119,12 +118,10 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
                 }
                 return RefreshIndicator(
                   color: kPrimaryColor,
-                  onRefresh: () async => context
-                      .read<NewsBloc>()
-                      .add(NewsRefreshRequested()),
+                  onRefresh: () async =>
+                      context.read<NewsBloc>().add(NewsRefreshRequested()),
                   child: ListView.builder(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: AppSizes.spaceMd),
+                    padding: EdgeInsets.symmetric(horizontal: AppSizes.spaceMd),
                     itemCount: state.articles.length,
                     itemBuilder: (context, index) =>
                         ArticleCard(article: state.articles[index]),
@@ -142,39 +139,41 @@ class _NewsFeedScreenState extends State<NewsFeedScreen> {
     );
   }
 
+  // In _chip() method — change 'All' label to show it's personalized
   Widget _chip(BuildContext context, String label) {
     final isSelected = _activeChip == label;
+    final displayLabel = label == 'All'
+        ? '# All'
+        : '# $label'; // hash tag style
+
     return GestureDetector(
       onTap: () {
         setState(() => _activeChip = label);
         if (label == 'All') {
           context.read<NewsBloc>().add(NewsFeedRequested());
         } else {
-          context
-              .read<NewsBloc>()
-              .add(NewsFeedByInterestRequested(interest: label));
+          context.read<NewsBloc>().add(
+            NewsFeedByInterestRequested(interest: label),
+          );
         }
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: EdgeInsets.only(right: 8.w),
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
         decoration: BoxDecoration(
-          color: isSelected ? kPrimaryColor : Colors.white,
+          color: isSelected ? kPrimaryColor : kBgColor,
           borderRadius: BorderRadius.circular(AppSizes.radiusCircular),
           border: Border.all(
-            color: isSelected
-                ? kPrimaryColor
-                : Colors.grey.withAlpha(51), // 20% opacity
+            color: isSelected ? kPrimaryColor :kGrayText.withAlpha(51),
           ),
         ),
         child: Text(
-          label,
-          style: GoogleFonts.playfairDisplay(
+          displayLabel,
+          style: GoogleFonts.inter(
             fontSize: 13.sp,
             color: isSelected ? Colors.white : kGrayText,
-            fontWeight:
-                isSelected ? FontWeight.bold : FontWeight.normal,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
         ),
       ),
